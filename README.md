@@ -4,12 +4,15 @@ A web-based recruitment system and talent network centered in Enugu and South Ea
 
 ## Run Locally
 
-**Prerequisites:**  Node.js
+**Prerequisites:** Node.js
 
-
-1. Install git add .
-git commit -m "Configure GitHub Pages deployment"
-git push origin maindependencies:
+1. Install dependencies:
    `npm install`
 2. Run the app:
    `npm run dev`
+
+## Deploy to GitHub Pages
+
+Push to the `main` branch. The GitHub Actions workflow builds and deploys the site automatically.
+
+Published site: https://metta-tony.github.io/recruitment-system/
