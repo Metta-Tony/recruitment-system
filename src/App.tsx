@@ -25,13 +25,15 @@ import { UserGuide } from './components/UserGuide';
 import { Footer } from './components/Footer';
 import { NewJobModal } from './components/NewJobModal';
 import { NewCandidateModal } from './components/NewCandidateModal';
-import { LayoutGrid, List, BookOpen } from 'lucide-react';
+import { LayoutGrid, List, BookOpen, CalendarDays, ClipboardCheck } from 'lucide-react';
+import { GeneralistSkillTest } from './components/GeneralistSkillTest';
 
 export default function App() {
   const [jobs, setJobs] = useState<JobOpening[]>(() => getStoredJobs());
   const [candidates, setCandidates] = useState<Candidate[]>(() => getStoredCandidates());
 
   const [activeTab, setActiveTab] = useState<'pipeline' | 'jobs' | 'interviews' | 'analytics' | 'careers' | 'about' | 'guide'>('pipeline');
+  const [interviewViewMode, setInterviewViewMode] = useState<'agenda' | 'skill-test'>('agenda');
   const [pipelineViewMode, setPipelineViewMode] = useState<'kanban' | 'list'>('kanban');
   const [selectedJobId, setSelectedJobId] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -280,11 +282,25 @@ export default function App() {
         )}
 
         {activeTab === 'interviews' && (
-          <InterviewScheduler
-            candidates={candidates}
-            onSelectCandidate={(cand) => setSelectedCandidate(cand)}
-            onUpdateInterviewStatus={handleUpdateInterviewStatus}
-          />
+          <div className="space-y-5">
+            <div className="flex gap-1 border-b border-slate-200 dark:border-slate-800">
+              <button type="button" onClick={() => setInterviewViewMode('agenda')} className={`inline-flex items-center gap-2 border-b-2 px-4 py-3 text-xs font-semibold ${interviewViewMode === 'agenda' ? 'border-indigo-600 text-indigo-700 dark:text-indigo-300' : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'}`}>
+                <CalendarDays className="h-4 w-4" /> Interview Agenda
+              </button>
+              <button type="button" onClick={() => setInterviewViewMode('skill-test')} className={`inline-flex items-center gap-2 border-b-2 px-4 py-3 text-xs font-semibold ${interviewViewMode === 'skill-test' ? 'border-indigo-600 text-indigo-700 dark:text-indigo-300' : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'}`}>
+                <ClipboardCheck className="h-4 w-4" /> Generalist Skill Test
+              </button>
+            </div>
+            {interviewViewMode === 'agenda' ? (
+              <InterviewScheduler
+                candidates={candidates}
+                onSelectCandidate={(cand) => setSelectedCandidate(cand)}
+                onUpdateInterviewStatus={handleUpdateInterviewStatus}
+              />
+            ) : (
+              <GeneralistSkillTest candidates={candidates} />
+            )}
+          </div>
         )}
 
         {activeTab === 'analytics' && (

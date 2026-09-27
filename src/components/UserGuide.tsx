@@ -55,6 +55,7 @@ export const UserGuide: React.FC<UserGuideProps> = ({
     filterJobs: false,
     testPublicApplication: false,
     scheduleInterview: false,
+    reviewSkillTest: false,
     viewAnalytics: false
   });
 
@@ -86,7 +87,7 @@ export const UserGuide: React.FC<UserGuideProps> = ({
           <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
             Welcome to the Enugu &amp; South East Nigeria Recruitment &amp; Applicant Tracking System (ATS). 
             This comprehensive guide walks you through every feature: managing candidates across pipeline stages, 
-            posting job openings with local NGN currency, scheduling interviews, analyzing hiring velocity, and testing the live public careers portal.
+            posting job openings with local NGN currency, scheduling interviews, reviewing the generalist skill test, analyzing hiring velocity, and testing the live public careers portal.
           </p>
 
           {/* Quick Metrics / Interactive Progress */}
@@ -417,6 +418,31 @@ export const UserGuide: React.FC<UserGuideProps> = ({
               </div>
 
               {/* Item 6 */}
+              <div
+                onClick={() => {
+                  toggleChecklistItem('reviewSkillTest');
+                  onNavigateTab('interviews');
+                }}
+                className="flex items-start space-x-3 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/70 hover:border-indigo-400 cursor-pointer transition-all"
+              >
+                <div className="mt-0.5">
+                  {checklist.reviewSkillTest ? (
+                    <CheckSquare className="w-4 h-4 text-emerald-500" />
+                  ) : (
+                    <Square className="w-4 h-4 text-slate-400" />
+                  )}
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-slate-900 dark:text-white">
+                    6. Administer the Generalist Skill Test
+                  </h4>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                    Open Interviews Agenda, choose Generalist Skill Test, select a candidate, and submit all 20 answers. Review the written answers using the scoring guides; 13/20 (65%) qualifies a candidate for consideration. The stated job opportunity is up to 90%, not a guarantee.
+                  </p>
+                </div>
+              </div>
+
+              {/* Item 6 */}
               <div 
                 onClick={() => {
                   toggleChecklistItem('viewAnalytics');
@@ -433,7 +459,7 @@ export const UserGuide: React.FC<UserGuideProps> = ({
                 </div>
                 <div>
                   <h4 className="text-xs font-bold text-slate-900 dark:text-white">
-                    6. Inspect Recruitment Analytics &amp; Funnel
+                    7. Inspect Recruitment Analytics &amp; Funnel
                   </h4>
                   <p className="text-[11px] text-slate-500 dark:text-slate-400">
                     Analyze recruitment pass rates, stage conversion drop-offs, and department distribution charts.
@@ -480,7 +506,7 @@ export const UserGuide: React.FC<UserGuideProps> = ({
                 <ol className="text-xs text-slate-600 dark:text-slate-400 space-y-1.5 list-decimal list-inside leading-relaxed">
                   <li><strong>Applied:</strong> Inbound submissions from Careers Portal or direct recruitment sourcing.</li>
                   <li><strong>Screening:</strong> 15-minute recruiter alignment check for experience &amp; communication.</li>
-                  <li><strong>Technical Test:</strong> Real-world work sample or take-home coding evaluation.</li>
+                  <li><strong>Technical Test:</strong> Use the 20-question Generalist Computer-Based Tasker test for generalist roles. It takes 30–40 minutes; recruiters review written answers, and 13/20 (65%) qualifies the candidate for consideration.</li>
                   <li><strong>Panel Interview:</strong> Deep-dive architecture and team cultural interview.</li>
                   <li><strong>Offer Extended:</strong> Formal compensation package proposed (in NGN or USD).</li>
                   <li><strong>Hired:</strong> Candidate accepted offer and onboarded into Coal City team.</li>
