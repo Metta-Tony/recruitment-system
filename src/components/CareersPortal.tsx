@@ -27,6 +27,7 @@ interface CareersPortalProps {
   jobs: JobOpening[];
   onApplyForJob: (candidate: Candidate) => void;
   onBackToATS: () => void;
+  onGoToSkillTest: () => void;
   highlightedJobId?: string | null;
 }
 
@@ -34,6 +35,7 @@ export const CareersPortal: React.FC<CareersPortalProps> = ({
   jobs,
   onApplyForJob,
   onBackToATS,
+  onGoToSkillTest,
   highlightedJobId
 }) => {
   const [selectedJob, setSelectedJob] = useState<JobOpening | null>(
@@ -170,7 +172,7 @@ export const CareersPortal: React.FC<CareersPortalProps> = ({
       <div className="bg-indigo-900/40 border border-indigo-700/50 rounded-xl p-3 flex items-center justify-between text-xs text-indigo-200">
         <span className="flex items-center space-x-2">
           <Globe className="w-4 h-4 text-indigo-400" />
-          <span>You are viewing the <strong>Public Careers Portal</strong> preview. Candidates who submit here appear instantly in the recruiter pipeline.</span>
+          <span>You are viewing the <strong>Public Careers Portal</strong> preview. Applicants enter pre-screening and join the recruiter pipeline only after passing the skill test.</span>
         </span>
         <button
           type="button"
@@ -224,18 +226,15 @@ export const CareersPortal: React.FC<CareersPortalProps> = ({
             Application Received Successfully!
           </h3>
           <p className="text-xs text-emerald-700 dark:text-emerald-300 max-w-md mx-auto">
-            Thank you for applying for <strong>{submissionSuccess}</strong>. Your profile has been submitted to the recruitment team and is now in the screening queue.
+            Thank you for applying for <strong>{submissionSuccess}</strong>. Your profile is in pre-screening and will join the recruitment pipeline only after passing the skill test.
           </p>
           <div className="pt-2">
             <button
               type="button"
-              onClick={() => {
-                setSubmissionSuccess(null);
-                onBackToATS();
-              }}
+              onClick={onGoToSkillTest}
               className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-lg shadow-sm"
             >
-              View in Recruiter Pipeline →
+              Review skill test →
             </button>
           </div>
         </div>

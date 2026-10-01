@@ -437,7 +437,7 @@ export const UserGuide: React.FC<UserGuideProps> = ({
                     6. Administer the Generalist Skill Test
                   </h4>
                   <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                    Open Interviews Agenda, choose Generalist Skill Test, select a candidate, and submit all 20 answers. Review the written answers using the scoring guides; 13/20 (65%) qualifies a candidate for consideration. The stated job opportunity is up to 90%, not a guarantee.
+                    Open Interviews Agenda, choose Generalist Skill Test, select a pre-screening candidate, and submit all 20 answers. Review the written answers using the scoring guides. Only candidates with a final score of at least 13/20 can be added to the pipeline; failed candidates remain outside it.
                   </p>
                 </div>
               </div>
@@ -652,10 +652,10 @@ export const UserGuide: React.FC<UserGuideProps> = ({
                   3
                 </div>
                 <h3 className="font-bold text-sm text-slate-900 dark:text-white">
-                  Instant ATS Synchronization
+                  Skill-Test-Gated Pipeline Entry
                 </h3>
                 <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                  Upon submitting the form, the applicant is instantly injected into your live Candidate Pipeline under the <strong>"Applied"</strong> stage, complete with resume and skills.
+                  Applicants are saved for pre-screening first. After every written answer is reviewed, only a passing score of at least 13/20 allows the profile to be added to the live Candidate Pipeline.
                 </p>
               </div>
             </div>

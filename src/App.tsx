@@ -10,6 +10,8 @@ import {
   saveStoredJobs, 
   getStoredCandidates, 
   saveStoredCandidates, 
+  getStoredPendingCandidates,
+  saveStoredPendingCandidates,
   resetDemoData 
 } from './data/mockData';
 import { Header } from './components/Header';
@@ -31,9 +33,11 @@ import { GeneralistSkillTest } from './components/GeneralistSkillTest';
 export default function App() {
   const [jobs, setJobs] = useState<JobOpening[]>(() => getStoredJobs());
   const [candidates, setCandidates] = useState<Candidate[]>(() => getStoredCandidates());
+  const [pendingCandidates, setPendingCandidates] = useState<Candidate[]>(() => getStoredPendingCandidates());
 
   const [activeTab, setActiveTab] = useState<'pipeline' | 'jobs' | 'interviews' | 'analytics' | 'careers' | 'about' | 'guide'>('pipeline');
   const [interviewViewMode, setInterviewViewMode] = useState<'agenda' | 'skill-test'>('agenda');
+  const [skillTestCandidateId, setSkillTestCandidateId] = useState('');
   const [pipelineViewMode, setPipelineViewMode] = useState<'kanban' | 'list'>('kanban');
   const [selectedJobId, setSelectedJobId] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -52,6 +56,10 @@ export default function App() {
   useEffect(() => {
     saveStoredCandidates(candidates);
   }, [candidates]);
+
+  useEffect(() => {
+    saveStoredPendingCandidates(pendingCandidates);
+  }, [pendingCandidates]);
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -125,16 +133,28 @@ export default function App() {
     showToast(`Job requisition deleted.`);
   };
 
-  // Save new candidate manually
+  // Hold new profiles outside the pipeline until they pass the skill test.
   const handleSaveCandidate = (newCand: Candidate) => {
-    setCandidates(prev => [newCand, ...prev]);
-    showToast(`Added ${newCand.fullName} to candidate pipeline.`);
+    setPendingCandidates(prev => [newCand, ...prev]);
+    setSkillTestCandidateId(newCand.id);
+    setActiveTab('interviews');
+    setInterviewViewMode('skill-test');
+    showToast(`${newCand.fullName} is in pre-screening. Pass the skill test to add their profile to the pipeline.`);
   };
 
-  // Applicant applies via Careers Portal
+  // Applicant profiles remain outside the pipeline until they pass the skill test.
   const handleApplyForJob = (newCand: Candidate) => {
-    setCandidates(prev => [newCand, ...prev]);
-    showToast(`New application received for ${newCand.fullName}! Added to "Applied" queue.`);
+    setPendingCandidates(prev => [newCand, ...prev]);
+    setSkillTestCandidateId(newCand.id);
+    showToast(`${newCand.fullName}'s application is in pre-screening. Pass the skill test to add their profile to the pipeline.`);
+  };
+
+  const handlePassSkillTest = (candidateId: string) => {
+    const passedCandidate = pendingCandidates.find(candidate => candidate.id === candidateId);
+    if (!passedCandidate) return;
+    setPendingCandidates(prev => prev.filter(candidate => candidate.id !== candidateId));
+    setCandidates(prev => [passedCandidate, ...prev]);
+    showToast(`${passedCandidate.fullName} passed the skill test and was added to the pipeline.`);
   };
 
   // Update interview status
@@ -161,6 +181,7 @@ export default function App() {
       const reset = resetDemoData();
       setJobs(reset.jobs);
       setCandidates(reset.candidates);
+      setPendingCandidates([]);
       setSelectedCandidate(null);
       showToast('Recruitment database reset to sample dataset.');
     }
@@ -298,7 +319,12 @@ export default function App() {
                 onUpdateInterviewStatus={handleUpdateInterviewStatus}
               />
             ) : (
-              <GeneralistSkillTest candidates={candidates} />
+              <GeneralistSkillTest
+                candidates={[...pendingCandidates, ...candidates]}
+                pendingCandidateIds={pendingCandidates.map(candidate => candidate.id)}
+                initialCandidateId={skillTestCandidateId}
+                onPassCandidate={handlePassSkillTest}
+              />
             )}
           </div>
         )}
@@ -315,6 +341,10 @@ export default function App() {
             jobs={jobs}
             onApplyForJob={handleApplyForJob}
             onBackToATS={() => setActiveTab('pipeline')}
+            onGoToSkillTest={() => {
+              setActiveTab('interviews');
+              setInterviewViewMode('skill-test');
+            }}
             highlightedJobId={highlightedCareerJobId}
           />
         )}

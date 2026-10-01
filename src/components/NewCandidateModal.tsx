@@ -99,7 +99,7 @@ export const NewCandidateModal: React.FC<NewCandidateModalProps> = ({
               <h2 className="text-base font-bold text-slate-900 dark:text-white">
                 Add Candidate Manually
               </h2>
-              <p className="text-xs text-slate-500">Add an externally sourced candidate or referral into the pipeline.</p>
+              <p className="text-xs text-slate-500">Save an externally sourced candidate for skill-test pre-screening.</p>
             </div>
           </div>
 

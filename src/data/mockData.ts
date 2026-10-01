@@ -634,6 +634,7 @@ export const INITIAL_CANDIDATES: Candidate[] = [
 
 const JOBS_STORAGE_KEY = 'recruitment_system_jobs_enugu_v2';
 const CANDIDATES_STORAGE_KEY = 'recruitment_system_candidates_enugu_v2';
+const PENDING_CANDIDATES_STORAGE_KEY = 'recruitment_system_pending_candidates_enugu_v1';
 
 export function getStoredJobs(): JobOpening[] {
   try {
@@ -674,6 +675,24 @@ export function saveStoredCandidates(candidates: Candidate[]): void {
     localStorage.setItem(CANDIDATES_STORAGE_KEY, JSON.stringify(candidates));
   } catch (e) {
     console.error('Error saving candidates', e);
+  }
+}
+
+export function getStoredPendingCandidates(): Candidate[] {
+  try {
+    const raw = localStorage.getItem(PENDING_CANDIDATES_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    console.error('Error reading stored pending candidates', e);
+    return [];
+  }
+}
+
+export function saveStoredPendingCandidates(candidates: Candidate[]): void {
+  try {
+    localStorage.setItem(PENDING_CANDIDATES_STORAGE_KEY, JSON.stringify(candidates));
+  } catch (e) {
+    console.error('Error saving pending candidates', e);
   }
 }
 

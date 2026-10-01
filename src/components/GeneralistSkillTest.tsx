@@ -4,6 +4,9 @@ import { CheckCircle2, ClipboardCheck, RotateCcw } from 'lucide-react';
 
 interface GeneralistSkillTestProps {
   candidates: Candidate[];
+  pendingCandidateIds: string[];
+  initialCandidateId: string;
+  onPassCandidate: (candidateId: string) => void;
 }
 
 interface TestQuestion {
@@ -60,7 +63,7 @@ const loadRecord = (candidateId: string): TestRecord => {
   }
 };
 
-export const GeneralistSkillTest: React.FC<GeneralistSkillTestProps> = ({ candidates }) => {
+export const GeneralistSkillTest: React.FC<GeneralistSkillTestProps> = ({ candidates, pendingCandidateIds, initialCandidateId, onPassCandidate }) => {
   const [candidateId, setCandidateId] = useState(candidates[0]?.id ?? '');
   const [record, setRecord] = useState<TestRecord>(() => candidates[0] ? loadRecord(candidates[0].id) : emptyRecord());
   const candidate = candidates.find(item => item.id === candidateId);
@@ -81,6 +84,13 @@ export const GeneralistSkillTest: React.FC<GeneralistSkillTestProps> = ({ candid
       localStorage.setItem(storageKey(candidateId), JSON.stringify(record));
     }
   }, [candidateId, record, submitted, answeredCount]);
+
+  useEffect(() => {
+    if (initialCandidateId) {
+      setCandidateId(initialCandidateId);
+      setRecord(loadRecord(initialCandidateId));
+    }
+  }, [initialCandidateId]);
 
   const updateResponse = (questionId: number, value: string) => {
     setRecord(current => ({ ...current, responses: { ...current.responses, [questionId]: value } }));
@@ -129,7 +139,7 @@ export const GeneralistSkillTest: React.FC<GeneralistSkillTestProps> = ({ candid
 
       <div className="flex flex-wrap items-start gap-3 rounded-lg border border-sky-200 bg-sky-50 p-4 text-xs text-sky-900 dark:border-sky-900 dark:bg-sky-950/30 dark:text-sky-200">
         <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
-        <p>Passing qualifies a candidate for job consideration. The stated opportunity is up to 90%; this is not a guarantee of employment. Written answers are scored by a recruiter before a final result is shown.</p>
+        <p>Pre-screening profiles are added to the pipeline only after passing with at least 13/20. Written answers must be reviewed before a final result is shown. The stated opportunity is up to 90%; this is not a guarantee of employment.</p>
       </div>
 
       {submitted && (
@@ -147,6 +157,11 @@ export const GeneralistSkillTest: React.FC<GeneralistSkillTestProps> = ({ candid
               <RotateCcw className="h-3.5 w-3.5" /> Retake test
             </button>
           </div>
+          {isFullyReviewed && score >= 13 && pendingCandidateIds.includes(candidateId) && (
+            <button type="button" onClick={() => onPassCandidate(candidateId)} className="mt-4 rounded-lg bg-emerald-600 px-4 py-2.5 text-xs font-semibold text-white hover:bg-emerald-500">
+              Add passed candidate to pipeline
+            </button>
+          )}
         </div>
       )}
 
