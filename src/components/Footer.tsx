@@ -36,7 +36,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateTab, onResetData }) =>
               </div>
               <div>
                 <span className="font-extrabold text-white text-base tracking-tight block">
-                  Recruitment System
+                  Design and Implementation of a Web-Based Recruitment System
                 </span>
                 <span className="text-[10px] text-indigo-400 font-semibold uppercase tracking-wider block">
                   Enugu &amp; South East Nigeria Talent Hub
@@ -176,7 +176,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateTab, onResetData }) =>
         {/* Bottom Bar: Copyright, Demo Reset, Back to Top */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
           <div>
-            <span>© 2026 <strong>Recruitment System</strong> — South East Nigeria Regional Tech Talent Network.</span>
+            <span>© 2026 <strong>Design and Implementation of a Web-Based Recruitment System</strong> — South East Nigeria Regional Tech Talent Network.</span>
           </div>
 
           <div className="flex items-center space-x-4">

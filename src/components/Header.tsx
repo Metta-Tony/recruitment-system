@@ -57,8 +57,8 @@ export const Header: React.FC<HeaderProps> = ({
                 <Briefcase className="w-5 h-5" />
               </div>
               <div>
-                <div className="flex items-center space-x-2">
-                  <span className="text-lg font-bold tracking-tight text-white">Recruitment System</span>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-xs sm:text-sm lg:text-base font-bold tracking-tight text-white">Design and Implementation of a Web-Based Recruitment System</span>
                   <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-medium border border-emerald-500/30 flex items-center space-x-1">
                     <MapPin className="w-2.5 h-2.5" />
                     <span>Enugu &bull; South East</span>
